@@ -1,0 +1,31 @@
+database:
+  ip: 42.194.162.161:3306
+  user: root
+  password: yjkgf@3$#rDF
+  db: ledger
+  timeout: 5
+
+redis:
+  ip: 42.194.162.161:6379
+  password: 7gjdskhb@#$9f
+
+rabbitmq:
+  ip: 42.194.162.161
+  port: 5672
+  user: ledger
+  password: ledger
+
+log:
+  filename: ledger.log
+  maxsize: 1024
+
+jwt:
+  secret: fdfd87g2346{}[]dsa!`
+
+
+email:
+  host: smtp.qq.com
+  port: 587
+  user: zzzzzz1916@qq.com
+  password: uweowbgasuyibagg
+

@@ -1,0 +1,199 @@
+definitions:
+  bill.AddRequest:
+    properties:
+      amount:
+        type: number
+      remark:
+        type: string
+      type:
+        type: integer
+    type: object
+  user.LoginRequest:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  user.Register:
+    properties:
+      code:
+        type: integer
+      email:
+        type: string
+      icon:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - code
+    - password
+    - user_name
+    type: object
+  webbase.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+info:
+  contact:
+    email: zzzzzz1916@qq.com
+    name: API Support
+  termsOfService: https://github.com/yangjunyangjun/ledger
+  title: Golang ledger API
+  version: "1.0"
+paths:
+  /ledger/v1/bill/add_bill:
+    post:
+      description: 新增消费记录
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/bill.AddRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/bill/bill_list:
+    get:
+      description: 消费记录列表
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - in: formData
+        name: end_time
+        type: string
+      - in: formData
+        name: limit
+        type: integer
+      - in: formData
+        name: offset
+        type: integer
+      - in: formData
+        name: start_time
+        type: string
+      - in: formData
+        name: type
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/user/login:
+    post:
+      description: 用户登录
+      parameters:
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
+  /ledger/v1/user/register:
+    post:
+      description: 用户注册
+      parameters:
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.Register'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
+  /ledger/v1/user/send_activate:
+    get:
+      description: 发送激活码
+      parameters:
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
+  /ledger/v1/user/user_list:
+    get:
+      description: 用户列表
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: formData
+        name: id
+        required: true
+        type: string
+      - description: 用户名
+        in: formData
+        name: user_name
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: 起始数据
+        in: formData
+        name: offset
+        required: true
+        type: integer
+      - description: 页数据
+        in: formData
+        name: limit
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
+swagger: "2.0"

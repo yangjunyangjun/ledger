@@ -1,0 +1,307 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Golang ledger API",
+        "termsOfService": "https://github.com/yangjunyangjun/ledger",
+        "contact": {
+            "name": "API Support",
+            "email": "zzzzzz1916@qq.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/ledger/v1/bill/add_bill": {
+            "post": {
+                "description": "新增消费记录",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/bill.AddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/bill/bill_list": {
+            "get": {
+                "description": "消费记录列表",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "type",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/login": {
+            "post": {
+                "description": "用户登录",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/register": {
+            "post": {
+                "description": "用户注册",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Register"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/send_activate": {
+            "get": {
+                "description": "发送激活码",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/user_list": {
+            "get": {
+                "description": "用户列表",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "user_name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "起始数据",
+                        "name": "offset",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页数据",
+                        "name": "limit",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "bill.AddRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.LoginRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.Register": {
+            "type": "object",
+            "required": [
+                "code",
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "webbase.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
