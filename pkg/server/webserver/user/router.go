@@ -16,5 +16,7 @@ func (w *UserWebServer) Setup(app, version, baseUrl string, g *gin.Engine) {
 	userGroup.POST("/login", w.login)
 	userGroup.POST("/register", w.register)
 	userGroup.GET("/send_activate", w.sendAct)
+	userGroup.GET("/captcha", w.Captcha)
+	userGroup.POST("/captcha_verify", w.Verify)
 	userGroup.GET("/user_list", middlware.CheckLogin(), w.userList)
 }
