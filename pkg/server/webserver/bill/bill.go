@@ -61,7 +61,7 @@ func (w *BillWebServer) addBill(c *gin.Context) {
 // @Description 消费记录列表
 // @Tags 消费管理相关接口
 // @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
-// @Param formData formData BillListRequest true "JSON数据"
+// @Param query query BillListRequest true "param数据"
 // @Success 200 {object} webbase.Response
 // @Router	/ledger/v1/bill/bill_list [get]
 func (w *BillWebServer) BillList(c *gin.Context) {

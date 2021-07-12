@@ -61,27 +61,70 @@
                     {
                         "type": "string",
                         "name": "end_time",
-                        "in": "formData"
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "name": "limit",
-                        "in": "formData"
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "name": "offset",
-                        "in": "formData"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "start_time",
-                        "in": "formData"
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "name": "type",
-                        "in": "formData"
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/captcha": {
+            "get": {
+                "description": "获取图片验证码",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/user/captcha_verify": {
+            "post": {
+                "description": "图片验证码校验",
+                "tags": [
+                    "用户相关接口"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Verify"
+                        }
                     }
                 ],
                 "responses": {
@@ -157,10 +200,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "邮箱",
                         "name": "email",
-                        "in": "formData",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -189,38 +230,28 @@
                     },
                     {
                         "type": "string",
-                        "description": "id",
-                        "name": "id",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "user_name",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "邮箱",
                         "name": "email",
-                        "in": "formData",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "起始数据",
-                        "name": "offset",
-                        "in": "formData",
-                        "required": true
+                        "name": "id",
+                        "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "页数据",
                         "name": "limit",
-                        "in": "formData",
-                        "required": true
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "user_name",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -285,6 +316,21 @@
                     "type": "string"
                 },
                 "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.Verify": {
+            "type": "object",
+            "required": [
+                "code",
+                "id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 }
             }

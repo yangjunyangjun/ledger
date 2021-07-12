@@ -137,7 +137,7 @@ func (w *UserWebServer) register(c *gin.Context) {
 // @Author y18175612315@163.com
 // @Description 发送激活码
 // @Tags 用户相关接口
-// @Param email formData string true "邮箱"
+// @Param query query Activation true "param参数"
 // @Success 200 {object} webbase.Response
 // @Router	/ledger/v1/user/send_activate [get]
 func (w *UserWebServer) sendAct(c *gin.Context) {
@@ -167,11 +167,7 @@ func (w *UserWebServer) sendAct(c *gin.Context) {
 // @Description 用户列表
 // @Tags 用户相关接口
 // @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
-// @Param id formData string true "id"
-// @Param user_name formData string true "用户名"
-// @Param email formData string true "邮箱"
-// @Param offset formData int true "起始数据"
-// @Param limit formData int true "页数据"
+// @Param query query userList true "param参数"
 // @Success 200 {object} webbase.Response
 // @Router	/ledger/v1/user/user_list [get]
 func (w *UserWebServer) userList(c *gin.Context) {

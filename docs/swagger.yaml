@@ -35,6 +35,16 @@ definitions:
     - password
     - user_name
     type: object
+  user.Verify:
+    properties:
+      code:
+        type: string
+      id:
+        type: string
+    required:
+    - code
+    - id
+    type: object
   webbase.Response:
     properties:
       code:
@@ -83,19 +93,19 @@ paths:
         name: Authorization
         required: true
         type: string
-      - in: formData
+      - in: query
         name: end_time
         type: string
-      - in: formData
+      - in: query
         name: limit
         type: integer
-      - in: formData
+      - in: query
         name: offset
         type: integer
-      - in: formData
+      - in: query
         name: start_time
         type: string
-      - in: formData
+      - in: query
         name: type
         type: integer
       responses:
@@ -105,6 +115,33 @@ paths:
             $ref: '#/definitions/webbase.Response'
       tags:
       - 消费管理相关接口
+  /ledger/v1/user/captcha:
+    get:
+      description: 获取图片验证码
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
+  /ledger/v1/user/captcha_verify:
+    post:
+      description: 图片验证码校验
+      parameters:
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.Verify'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 用户相关接口
   /ledger/v1/user/login:
     post:
       description: 用户登录
@@ -143,10 +180,8 @@ paths:
     get:
       description: 发送激活码
       parameters:
-      - description: 邮箱
-        in: formData
+      - in: query
         name: email
-        required: true
         type: string
       responses:
         "200":
@@ -164,31 +199,21 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: id
-        in: formData
-        name: id
-        required: true
-        type: string
-      - description: 用户名
-        in: formData
-        name: user_name
-        required: true
-        type: string
-      - description: 邮箱
-        in: formData
+      - in: query
         name: email
-        required: true
         type: string
-      - description: 起始数据
-        in: formData
-        name: offset
-        required: true
+      - in: query
+        name: id
         type: integer
-      - description: 页数据
-        in: formData
+      - in: query
         name: limit
-        required: true
         type: integer
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: user_name
+        type: string
       responses:
         "200":
           description: OK
