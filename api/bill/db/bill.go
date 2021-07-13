@@ -13,7 +13,7 @@ type Bill struct {
 	Remark string  `json:"remark"`
 }
 
-func (*ImplDb) TableName() string {
+func (Bill) TableName() string {
 	return "bill"
 }
 

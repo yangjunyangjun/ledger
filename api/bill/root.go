@@ -19,3 +19,7 @@ func Update(b db.Bill) error {
 func Delete(b db.Bill) error {
 	return _db.Delete(b)
 }
+
+func CostList() (cost []*db.Cost, err error) {
+	return _db.CostList()
+}

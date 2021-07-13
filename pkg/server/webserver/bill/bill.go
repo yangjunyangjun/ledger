@@ -85,3 +85,21 @@ func (w *BillWebServer) BillList(c *gin.Context) {
 	}
 	w.Success(c, bList)
 }
+
+
+
+// @Title 费用种类列表
+// @Author y18175612315@163.com
+// @Description 费用种类列表
+// @Tags 消费管理相关接口
+// @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Success 200 {object} webbase.Response
+// @Router	/ledger/v1/bill/bill_list [get]
+func (w *BillWebServer) CostLis(c *gin.Context) {
+	cList, err := bill.CostList()
+	if err != nil {
+		sdk.Log.Errorf("query cost list err:%v", err)
+		w.Error(c, 5000, "query cost list err")
+	}
+	w.Success(c, cList)
+}
