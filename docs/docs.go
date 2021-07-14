@@ -64,7 +64,7 @@ var doc = `{
         },
         "/ledger/v1/bill/bill_list": {
             "get": {
-                "description": "消费记录列表",
+                "description": "费用种类列表",
                 "tags": [
                     "消费管理相关接口"
                 ],
@@ -75,31 +75,6 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "end_time",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "start_time",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "type",
-                        "in": "query"
                     }
                 ],
                 "responses": {

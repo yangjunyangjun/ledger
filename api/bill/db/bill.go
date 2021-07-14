@@ -9,7 +9,7 @@ type Bill struct {
 	gorm.Model
 	UserId int64   `json:"user_id"`
 	Amount float64 `json:"amount"`
-	Type   int64   `json:"amount"`
+	Type   int64   `json:"type"`
 	Remark string  `json:"remark"`
 }
 

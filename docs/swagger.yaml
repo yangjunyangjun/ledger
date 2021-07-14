@@ -86,28 +86,13 @@ paths:
       - 消费管理相关接口
   /ledger/v1/bill/bill_list:
     get:
-      description: 消费记录列表
+      description: 费用种类列表
       parameters:
       - description: Bearer 31a165baebe6dec616b1f8f3207b4273
         in: header
         name: Authorization
         required: true
         type: string
-      - in: query
-        name: end_time
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: offset
-        type: integer
-      - in: query
-        name: start_time
-        type: string
-      - in: query
-        name: type
-        type: integer
       responses:
         "200":
           description: OK
