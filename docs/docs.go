@@ -28,7 +28,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/ledger/v1/bill/add_bill": {
+        "/ledger/v1/consume/add_bill": {
             "post": {
                 "description": "新增消费记录",
                 "tags": [
@@ -48,7 +48,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/bill.AddRequest"
+                            "$ref": "#/definitions/consume.AddRequest"
                         }
                     }
                 ],
@@ -62,7 +62,7 @@ var doc = `{
                 }
             }
         },
-        "/ledger/v1/bill/bill_list": {
+        "/ledger/v1/consume/bill_list": {
             "get": {
                 "description": "费用种类列表",
                 "tags": [
@@ -259,7 +259,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "bill.AddRequest": {
+        "consume.AddRequest": {
             "type": "object",
             "properties": {
                 "amount": {

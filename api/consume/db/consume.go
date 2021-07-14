@@ -5,27 +5,26 @@ import (
 	"ledger/sdk"
 )
 
-type Bill struct {
+type Consume struct {
 	gorm.Model
 	UserId int64   `json:"user_id"`
-	Amount float64 `json:"amount"`
+	Money  float64 `json:"money"`
 	Type   int64   `json:"type"`
 	Remark string  `json:"remark"`
 }
 
-func (Bill) TableName() string {
-	return "bill"
+func (Consume) TableName() string {
+	return "consume"
 }
 
-func (*ImplDb) AddBill(b Bill) error {
-	if err := sdk.DB.Create(&b).Error; err != nil {
-
+func (*ImplDb) AddConsume(c Consume) error {
+	if err := sdk.DB.Create(&c).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (*ImplDb) QueryByBill(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Bill, err error) {
+func (*ImplDb) QueryByConsume(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Consume, err error) {
 	db := sdk.DB
 	if startTime != "" {
 		db.Where("created_at >= ?", startTime)
@@ -45,15 +44,15 @@ func (*ImplDb) QueryByBill(startTime, endTime string, userId, bType, limit, offs
 	return rst, nil
 }
 
-func (*ImplDb) Update(b Bill) error {
-	if err := sdk.DB.Where("id=?", b.ID).Update(b).Error; err != nil {
+func (*ImplDb) UpdateConsume(c Consume) error {
+	if err := sdk.DB.Where("id=?", c.ID).Update(c).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func (*ImplDb) Delete(b Bill) error {
-	if err := sdk.DB.Delete(b).Error; err != nil {
+func (*ImplDb) DeleteConsume(c Consume) error {
+	if err := sdk.DB.Delete(c).Error; err != nil {
 		return err
 	}
 	return nil

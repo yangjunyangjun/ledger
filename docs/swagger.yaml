@@ -76,7 +76,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/bill.AddRequest'
+          $ref: '#/definitions/consume.AddRequest'
       responses:
         "200":
           description: OK
