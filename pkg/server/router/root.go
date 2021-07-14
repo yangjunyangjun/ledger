@@ -12,11 +12,11 @@ const (
 )
 
 var (
-	u = new(user.UserWebServer)
-	b = new(consume.BillWebServer)
+	userServer = new(user.UserWebServer)
+	consumeServer = new(consume.ConsumeWebServer)
 )
 
 func Setup(g *gin.Engine) {
-	u.Setup(App, Version, "user", g)
-	b.Setup(App, Version, "consume", g)
+	userServer.Setup(App, Version, "user", g)
+	consumeServer.Setup(App, Version, "consume", g)
 }

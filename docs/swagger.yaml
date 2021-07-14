@@ -1,7 +1,28 @@
 definitions:
-  bill.AddRequest:
+  consume.AddConsumeRequest:
     properties:
-      amount:
+      money:
+        type: number
+      remark:
+        type: string
+      type:
+        type: integer
+    type: object
+  consume.AddConsumeTypeReq:
+    properties:
+      type_name:
+        type: string
+    type: object
+  consume.DelConsumeTypeReq:
+    properties:
+      id:
+        type: integer
+    type: object
+  consume.UpdateConsumeRequest:
+    properties:
+      id:
+        type: integer
+      money:
         type: number
       remark:
         type: string
@@ -62,7 +83,7 @@ info:
   title: Golang ledger API
   version: "1.0"
 paths:
-  /ledger/v1/bill/add_bill:
+  /ledger/v1/consume/add_consume:
     post:
       description: 新增消费记录
       parameters:
@@ -76,7 +97,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/consume.AddRequest'
+          $ref: '#/definitions/consume.AddConsumeRequest'
       responses:
         "200":
           description: OK
@@ -84,15 +105,112 @@ paths:
             $ref: '#/definitions/webbase.Response'
       tags:
       - 消费管理相关接口
-  /ledger/v1/bill/bill_list:
-    get:
-      description: 费用种类列表
+  /ledger/v1/consume/add_consume_type:
+    post:
+      description: 新增消费种类
       parameters:
       - description: Bearer 31a165baebe6dec616b1f8f3207b4273
         in: header
         name: Authorization
         required: true
         type: string
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/consume.AddConsumeTypeReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/consume/consume_list:
+    get:
+      description: 消费记录列表
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - in: query
+        name: end_time
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: start_time
+        type: string
+      - in: query
+        name: type
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/consume/consume_type_list:
+    get:
+      description: 消费种类列表
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/consume/del_consume_type:
+    delete:
+      description: 删除种类列表
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/consume.DelConsumeTypeReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/consume/update_consume:
+    put:
+      description: 更新消费记录
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/consume.UpdateConsumeRequest'
       responses:
         "200":
           description: OK

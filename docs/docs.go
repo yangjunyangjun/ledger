@@ -28,7 +28,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/ledger/v1/consume/add_bill": {
+        "/ledger/v1/consume/add_consume": {
             "post": {
                 "description": "新增消费记录",
                 "tags": [
@@ -48,7 +48,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/consume.AddRequest"
+                            "$ref": "#/definitions/consume.AddConsumeRequest"
                         }
                     }
                 ],
@@ -62,9 +62,9 @@ var doc = `{
                 }
             }
         },
-        "/ledger/v1/consume/bill_list": {
-            "get": {
-                "description": "费用种类列表",
+        "/ledger/v1/consume/add_consume_type": {
+            "post": {
+                "description": "新增消费种类",
                 "tags": [
                     "消费管理相关接口"
                 ],
@@ -75,6 +75,158 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consume.AddConsumeTypeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/consume/consume_list": {
+            "get": {
+                "description": "消费记录列表",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/consume/consume_type_list": {
+            "get": {
+                "description": "消费种类列表",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/consume/del_consume_type": {
+            "delete": {
+                "description": "删除种类列表",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consume.DelConsumeTypeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/consume/update_consume": {
+            "put": {
+                "description": "更新消费记录",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consume.UpdateConsumeRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -259,10 +411,43 @@ var doc = `{
         }
     },
     "definitions": {
-        "consume.AddRequest": {
+        "consume.AddConsumeRequest": {
             "type": "object",
             "properties": {
-                "amount": {
+                "money": {
+                    "type": "number"
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                }
+            }
+        },
+        "consume.AddConsumeTypeReq": {
+            "type": "object",
+            "properties": {
+                "type_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "consume.DelConsumeTypeReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "consume.UpdateConsumeRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "money": {
                     "type": "number"
                 },
                 "remark": {
