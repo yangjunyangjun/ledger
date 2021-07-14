@@ -25,7 +25,7 @@ func (*ImplData) CreateRevenue(r Revenue) error {
 	return nil
 }
 
-func (*ImplData) QueryRevenue(userId int64, startTime, endTime string, tType int64) (rst []*Revenue, err error) {
+func (*ImplData) QueryRevenue(userId int64, startTime, endTime string, tType int64, offset, limit int64) (rst []*Revenue, err error) {
 	db := sdk.DB
 	if userId > 0 {
 		db.Where("user_id = ?", userId)
@@ -39,7 +39,7 @@ func (*ImplData) QueryRevenue(userId int64, startTime, endTime string, tType int
 	if tType > 0 {
 		db.Where("type = ?", tType)
 	}
-	if err := db.Find(&rst).Error; err != nil {
+	if err := db.Offset(offset).Limit(limit).Find(&rst).Error; err != nil {
 		sdk.Log.Errorf("query revenue error: %s", err.Error())
 		return rst, err
 	}

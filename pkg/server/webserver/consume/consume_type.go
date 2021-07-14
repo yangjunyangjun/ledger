@@ -42,8 +42,8 @@ func (w *ConsumeWebServer) AddConsumeType(c *gin.Context) {
 		UserId:   user.UserId,
 	}
 	if err := consume.CreateConsumeType(ct); err != nil {
-		sdk.Log.Errorf("query cost list err:%v", err)
-		w.Error(c, 5000, "query cost list err")
+		sdk.Log.Errorf("add consume_type list err:%v", err)
+		w.Error(c, 5000, "add consume_type list err")
 	}
 	w.Success(c, nil)
 }
@@ -64,8 +64,8 @@ func (w *ConsumeWebServer) ConsumeTypeList(c *gin.Context) {
 	}
 	cList, err := consume.ConsumeTypeList(user.UserId)
 	if err != nil {
-		sdk.Log.Errorf("query cost list err:%v", err)
-		w.Error(c, 5000, "query cost list err")
+		sdk.Log.Errorf("query consume_type list err:%v", err)
+		w.Error(c, 5000, "query consume_type list err")
 	}
 	w.Success(c, cList)
 }
@@ -96,8 +96,8 @@ func (w *ConsumeWebServer) DelConsumeType(c *gin.Context) {
 		Id:     req.Id,
 	}
 	if err := consume.DeleteConsumeType(ct); err != nil {
-		sdk.Log.Errorf("query cost list err:%v", err)
-		w.Error(c, 5000, "query cost list err")
+		sdk.Log.Errorf("delete consume_type list err:%v", err)
+		w.Error(c, 5000, "delete consume_type list err")
 	}
 	w.Success(c, nil)
 }

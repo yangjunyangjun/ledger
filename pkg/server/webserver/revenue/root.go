@@ -12,14 +12,13 @@ type RevenueWebServer struct {
 }
 
 func (w *RevenueWebServer) Setup(app, version, baseUrl string, g *gin.Engine) {
-	consumeGroup := g.Group(fmt.Sprintf("%s/%s/%s", app, version, baseUrl), middlware.CheckLogin())
-	consumeGroup.POST("add_consume", w.addConsume)
-	consumeGroup.GET("consume_list", w.ConsumeList)
-	consumeGroup.PUT("update_consume", w.UpdateConsume)
-
-	consumeGroup.POST("add_consume_type", w.AddConsumeType)
-	consumeGroup.GET("consume_type_list", w.ConsumeTypeList)
-	consumeGroup.DELETE("del_consume_type", w.DelConsumeType)
+	revenueGroup := g.Group(fmt.Sprintf("%s/%s/%s", app, version, baseUrl), middlware.CheckLogin())
+	revenueGroup.POST("add_revenue", w.addRevenue)
+	revenueGroup.GET("revenue_list", w.RevenueList)
+	revenueGroup.PUT("update_revenue", w.UpdateRevenue)
+	//
+	revenueGroup.POST("add_revenue_type", w.AddRevenueType)
+	revenueGroup.GET("revenue_type_list", w.RevenueTypeList)
+	revenueGroup.DELETE("del_revenue_type", w.DelRevenueType)
 
 }
-
