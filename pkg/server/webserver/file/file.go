@@ -17,7 +17,7 @@ import (
 // @Description 上传图片
 // @Tags 文件接口
 // @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
-// @Param icon formData string true "文件"
+// @Param icon formData file true "文件"
 // @Success 200 {object} webbase.Response
 // @Router	/ledger/v1/file/upload [post]
 func (w *FileWebServer) Upload(c *gin.Context) {
