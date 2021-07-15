@@ -40,7 +40,7 @@ func (w *FileWebServer) Upload(c *gin.Context) {
 		return
 	}
 
-	if _, err := lib.Cmd("mkdir", "-p", fmt.Sprintf("%s/%d", conf.Config.IconPath, u.Username)); err != nil {
+	if _, err := lib.Cmd("mkdir", "-p", fmt.Sprintf("%s/%s", conf.Config.IconPath, u.Username)); err != nil {
 		sdk.Log.Errorf("create file path error:%s", err.Error())
 		w.Error(c, 5000, "create file path error")
 		return
