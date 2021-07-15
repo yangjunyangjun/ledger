@@ -14,4 +14,5 @@ type FileWebServer struct {
 func (w *FileWebServer) Setup(app, version, baseUrl string, g *gin.Engine) {
 	fileGroup := g.Group(fmt.Sprintf("%s/%s/%s", app, version, baseUrl), middlware.CheckLogin())
 	fileGroup.POST("upload", w.Upload)
+	fileGroup.POST("download", w.Download)
 }

@@ -2,6 +2,7 @@ package lib
 
 import (
 	"crypto/md5"
+	"encoding/base64"
 	"fmt"
 	"ledger/sdk"
 	"math/rand"
@@ -50,4 +51,13 @@ func Cmd(cmd string, arg ...string, ) ([]byte, error) {
 	}
 	return out, nil
 
+}
+
+func UrlBese64Encode(str string) string {
+	return base64.URLEncoding.EncodeToString([]byte(str))
+}
+
+
+func UrlBese64Decode(str string) string {
+	return base64.URLEncoding.EncodeToString([]byte(str))
 }

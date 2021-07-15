@@ -255,6 +255,62 @@
                 }
             }
         },
+        "/ledger/v1/file/download": {
+            "get": {
+                "description": "下载图片",
+                "tags": [
+                    "文件接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "图片连接",
+                        "name": "icon",
+                        "in": "query",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/ledger/v1/file/upload": {
+            "post": {
+                "description": "上传图片",
+                "tags": [
+                    "文件接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文件",
+                        "name": "icon",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/v1/revenue/add_revenue": {
             "post": {
                 "description": "新增收入记录",
