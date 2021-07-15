@@ -5,7 +5,6 @@ import (
 	"ledger/api/user"
 	"ledger/api/user/db"
 	"ledger/lib"
-	"ledger/pkg/server/middlware"
 	"ledger/pkg/server/webbase"
 	"ledger/sdk"
 	"time"
@@ -65,7 +64,7 @@ func (w *UserWebServer) login(c *gin.Context) {
 		w.Error(c, 5000, "invalid user_name password")
 		return
 	}
-	m := middlware.Claims{
+	m := webbase.Claims{
 		UserId:   u.Id,
 		Username: u.UserName,
 		Role:     u.Role,
@@ -95,7 +94,7 @@ func (w *UserWebServer) register(c *gin.Context) {
 		w.Error(c, webbase.InvalidRequest, "invalid request")
 		return
 	}
-	// 从redis取出验证码 校验是否挣钱
+	// 从redis取出验证码 校验是否正确
 	if code, err := sdk.RedisCli.Get(req.Email).Int64(); err != nil || code != req.Code {
 		sdk.Log.Errorf("get activate code err  %v or code error", err)
 		w.Error(c, 5000, "code error or expired")

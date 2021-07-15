@@ -1,4 +1,4 @@
-package middlware
+package webbase
 
 import (
 	"github.com/dgrijalva/jwt-go"
