@@ -279,7 +279,7 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: 图片连接
+      - description: 图片编码
         in: query
         name: icon
         required: true
@@ -299,7 +299,7 @@ paths:
         in: formData
         name: icon
         required: true
-        type: string
+        type: file
       responses:
         "200":
           description: OK

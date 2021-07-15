@@ -289,7 +289,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "图片连接",
+                        "description": "图片编码",
                         "name": "icon",
                         "in": "query",
                         "required": true
@@ -312,7 +312,7 @@ var doc = `{
                         "required": true
                     },
                     {
-                        "type": "string",
+                        "type": "file",
                         "description": "文件",
                         "name": "icon",
                         "in": "formData",

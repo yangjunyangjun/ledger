@@ -3,10 +3,10 @@ package file
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"ledger/conf"
 	"ledger/lib"
 	"ledger/sdk"
-	"os"
 	"path"
 	"strings"
 	"time"
@@ -40,11 +40,11 @@ func (w *FileWebServer) Upload(c *gin.Context) {
 		return
 	}
 
-	if _, err := lib.Cmd("mkdir", "-p", fmt.Sprintf("%s/%s", conf.Config.IconPath, u.Username)); err != nil {
-		sdk.Log.Errorf("create file path error:%s", err.Error())
-		w.Error(c, 5000, "create file path error")
-		return
-	}
+	//if _, err := lib.Cmd("mkdir", "-p", fmt.Sprintf("%s/%s", conf.Config.IconPath, u.Username)); err != nil {
+	//	sdk.Log.Errorf("create file path error:%s", err.Error())
+	//	w.Error(c, 5000, "create file path error")
+	//	return
+	//}
 
 	//存文件
 	t := time.Now().Format("2006-01-02")
@@ -62,24 +62,16 @@ func (w *FileWebServer) Upload(c *gin.Context) {
 // @Description 下载图片
 // @Tags 文件接口
 // @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
-// @Param icon query string true "图片连接"
+// @Param icon query string true "图片编码"
 // @Router	/ledger/v1/file/download [get]
 func (w *FileWebServer) Download(c *gin.Context) {
-	icon := c.Param("icon")
+	icon := c.Query("icon")
 	path := lib.UrlBese64Decode(icon)
-	f, err := os.Open(fmt.Sprintf("%s/%s", conf.Config.IconPath, path))
+
+	f, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", conf.Config.IconPath, path))
 	if err != nil {
 		sdk.Log.Errorf("open file error :%s", err.Error())
 		c.Status(404)
-		return
-	}
-	defer f.Close()
-
-	//文件流
-	var content []byte
-	if _,err:=f.Read(content);err!=nil{
-		sdk.Log.Error("read file error: ", err)
-		w.Error(c, 5000, "read file error")
 		return
 	}
 
@@ -91,9 +83,9 @@ func (w *FileWebServer) Download(c *gin.Context) {
 	c.Header("Content-Type", "application/octet-stream")
 	c.Header("Content-Disposition", attachment)
 	c.Header("Content-Transfer-Encoding", "binary")
-	c.Header("Accept-Length", fmt.Sprintf("%d", len(content)))
-	//回写到web 流媒体 形成下载
-	if _, err := c.Writer.Write(content); err != nil {
+	c.Header("Accept-Length", fmt.Sprintf("%d", len(f)))
+
+	if _, err := c.Writer.Write(f); err != nil {
 		sdk.Log.Error("Error write back: ", err)
 		w.Error(c, 5000, "error download")
 		return

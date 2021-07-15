@@ -57,7 +57,10 @@ func UrlBese64Encode(str string) string {
 	return base64.URLEncoding.EncodeToString([]byte(str))
 }
 
-
 func UrlBese64Decode(str string) string {
-	return base64.URLEncoding.EncodeToString([]byte(str))
+	b, err := base64.URLEncoding.DecodeString(str)
+	if err != nil {
+		return ""
+	}
+	return string(b)
 }
