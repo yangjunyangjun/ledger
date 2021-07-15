@@ -1,16 +1,19 @@
 package db
 
 import (
-	"github.com/jinzhu/gorm"
 	"ledger/sdk"
+	"time"
 )
 
 type Consume struct {
-	gorm.Model
-	UserId int64   `json:"user_id"`
-	Money  float64 `json:"money"`
-	Type   int64   `json:"type"`
-	Remark string  `json:"remark"`
+	Id        int64      `json:"id" gorm:"primary_key"`
+	UserId    int64      `json:"user_id"`
+	Money     float64    `json:"money"`
+	Type      int64      `json:"type"`
+	Remark    string     `json:"remark"`
+	CreatedAt time.Time  `json:"created_at" gorm:"default:null"`
+	UpdatedAt time.Time  `json:"updated_at" gorm:"default:null"`
+	DeletedAt *time.Time `json:"deleted_at" gorm:"default:null"`
 }
 
 func (Consume) TableName() string {
@@ -45,7 +48,7 @@ func (*ImplDb) QueryByConsume(startTime, endTime string, userId, bType, limit, o
 }
 
 func (*ImplDb) UpdateConsume(c Consume) error {
-	if err := sdk.DB.Where("id=?", c.ID).Update(c).Error; err != nil {
+	if err := sdk.DB.Where("id=?", c.Id).Update(c).Error; err != nil {
 		return err
 	}
 	return nil

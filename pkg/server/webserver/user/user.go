@@ -66,7 +66,7 @@ func (w *UserWebServer) login(c *gin.Context) {
 		return
 	}
 	m := middlware.Claims{
-		UserId:   int64(u.ID),
+		UserId:   u.Id,
 		Username: u.UserName,
 		Role:     u.Role,
 		Email:    u.Email,

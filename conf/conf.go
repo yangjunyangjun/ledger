@@ -17,6 +17,7 @@ type YamlConfig struct {
 	Log      Log      `yaml:"log"`
 	Jwt      Jwt      `yaml:"jwt"`
 	Email    Email    `yaml:"email"`
+	IconPath string   `yaml:"iconfilepath"`
 }
 
 type DataBase struct {

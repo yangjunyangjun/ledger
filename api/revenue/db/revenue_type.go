@@ -6,10 +6,10 @@ import (
 )
 
 type RevenueType struct {
-	Id        int64     `json:"id"`
+	Id        int64     `json:"id" gorm:"primary_key"`
 	TypeName  string    `json:"type_name"`
 	UserId    int64     `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:null"`
 }
 
 func (RevenueType) TableName() string {

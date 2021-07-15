@@ -113,13 +113,14 @@ func (w *RevenueWebServer) UpdateRevenue(c *gin.Context) {
 		return
 	}
 	rev := db.Revenue{
+		Id:     req.Id,
 		UserId: u.UserId,
 		Money:  req.Money,
 		Type:   req.Type,
 		Remark: req.Remark,
 	}
 	if err := revenue.UpdateRevenue(rev); err != nil {
-		sdk.Log.Errorf("update revenue err:", err)
+		sdk.Log.Errorf("update revenue err:%s", err.Error())
 		w.Error(c, 5000, "update revenue err")
 		return
 	}

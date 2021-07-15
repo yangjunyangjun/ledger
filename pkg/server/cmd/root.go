@@ -15,6 +15,8 @@ import (
 
 func Run() {
 	g := gin.New()
+	//限制上传文件大小
+	g.MaxMultipartMemory = 3 << 20
 	// 添加log日志中间件
 	g.Use(middlware.LoggerToFile(),
 	)
@@ -28,7 +30,10 @@ func Run() {
 	}
 
 	// 初始化 添加swgger 文件
-	out := lib.Cmd("swag", "init")
+	out, err := lib.Cmd("swag", "init")
+	if err != nil {
+		os.Exit(1)
+	}
 	sdk.Log.Println(string(out))
 
 	//添加swgger 路由

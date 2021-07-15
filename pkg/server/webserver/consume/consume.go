@@ -91,7 +91,6 @@ func (w *ConsumeWebServer) ConsumeList(c *gin.Context) {
 	w.Success(c, cList)
 }
 
-
 // @Title 更新消费记录
 // @Author y18175612315@163.com
 // @Description 更新消费记录
@@ -114,16 +113,16 @@ func (w *ConsumeWebServer) UpdateConsume(c *gin.Context) {
 		return
 	}
 	con := db.Consume{
+		Id:     req.Id,
 		UserId: u.UserId,
 		Money:  req.Money,
 		Type:   req.Type,
 		Remark: req.Remark,
 	}
 	if err := consume.UpdateConsume(con); err != nil {
-		sdk.Log.Errorf("update consume err:", err)
+		sdk.Log.Errorf("update consume err:%s", err.Error())
 		w.Error(c, 5000, "update consume err")
 		return
 	}
 	w.Success(c, nil)
 }
-

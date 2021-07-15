@@ -40,13 +40,14 @@ func RandStr() string {
 }
 
 // 执行操作系统命令
-func Cmd(cmd string, arg ...string, ) []byte {
+func Cmd(cmd string, arg ...string, ) ([]byte, error) {
 	// cmd 需要执行第一条命令
 	// arg 后续命令
 	out, err := exec.Command(cmd, arg...).Output()
 	if err != nil {
-		panic("some error found")
+		sdk.Log.Errorf("cmd error: %s", err.Error())
+		return nil, err
 	}
-	return out
+	return out, nil
 
 }

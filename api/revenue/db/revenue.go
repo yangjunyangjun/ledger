@@ -1,16 +1,19 @@
 package db
 
 import (
-	"github.com/jinzhu/gorm"
 	"ledger/sdk"
+	"time"
 )
 
 type Revenue struct {
-	gorm.Model
-	UserId int64   `json:"user_id"`
-	Money  float64 `json:"Money"`
-	Type   int64   `json:"type"`
-	Remark string  `json:"remark"`
+	Id        int64      `json:"id" gorm:"primary_key"`
+	UserId    int64      `json:"user_id"`
+	Money     float64    `json:"Money"`
+	Type      int64      `json:"type"`
+	Remark    string     `json:"remark"`
+	CreatedAt time.Time  `json:"created_at" gorm:"default:null"`
+	UpdatedAt time.Time  `json:"updated_at" gorm:"default:null"`
+	DeletedAt *time.Time `json:"deleted_at" gorm:"default:null"`
 }
 
 func (Revenue) TableName() string {
@@ -47,7 +50,7 @@ func (*ImplData) QueryRevenue(userId int64, startTime, endTime string, tType int
 }
 
 func (*ImplData) UpdateRevenue(r Revenue) error {
-	if err := sdk.DB.Where("id = ? and user_id = ?", r.ID, r.UserId).Update(&r).Error; err != nil {
+	if err := sdk.DB.Where("id = ? and user_id = ?", r.Id, r.UserId).Update(&r).Error; err != nil {
 		sdk.Log.Errorf("update revenue error: %s", err.Error())
 		return err
 	}

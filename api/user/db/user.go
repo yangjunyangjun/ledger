@@ -3,15 +3,19 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	"ledger/sdk"
+	"time"
 )
 
 type User struct {
-	gorm.Model
-	UserName string `json:"user_name"`                              //用户昵称
-	Password string `json:"password"`                               // 密码
-	Icon     string `json:"icon"`                                   // 图像
-	Role     int64  `json:"role" gorm:"type:enum(1,2,3);default:1"` //用户角色
-	Email    string `json:"email"`                                  //邮箱
+	Id        int64      `json:"id" gorm:"primary_key"`
+	UserName  string     `json:"user_name"`                              //用户昵称
+	Password  string     `json:"password"`                               // 密码
+	Icon      string     `json:"icon"`                                   // 图像
+	Role      int64      `json:"role" gorm:"type:enum(1,2,3);default:1"` //用户角色
+	Email     string     `json:"email"`                                  //邮箱
+	CreatedAt time.Time  `json:"created_at" gorm:"default:null"`
+	UpdatedAt time.Time  `json:"updated_at" gorm:"default:null"`
+	DeletedAt *time.Time `json:"deleted_at" gorm:"default:null"`
 }
 
 // 指定表名
