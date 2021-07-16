@@ -17,9 +17,13 @@ func Run() {
 	g := gin.New()
 	//限制上传文件大小
 	g.MaxMultipartMemory = 3 << 20
-	// 添加log日志中间件
-	g.Use(middlware.LoggerToFile(),
+
+	g.Use(
+		middlware.LoggerToFile(), // 添加log日志中间件
+		middlware.Cors(),         // 处理前端跨域
 	)
+	//gin.DefaultWriter = io.MultiWriter(sdk.Log.Writer())
+
 	// 注册路由
 	router.Setup(g)
 	// 获取本机ip
