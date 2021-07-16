@@ -10,12 +10,12 @@ import (
 
 type AddConsumeRequest struct {
 	Money  float64 `json:"money"`
-	Type   int64   `json:"type"`
+	TypeId int64   `json:"type_id"`
 	Remark string  `json:"remark"`
 }
 
 type ConsumeListRequest struct {
-	Type      int64  `json:"type" form:"type"`
+	TypeId    int64  `json:"type_id" form:"type_id"`
 	StartTime string `json:"start_time" form:"start_time"`
 	EndTime   string `json:"end_time" form:"end_time"`
 	webbase.RequestPage
@@ -50,7 +50,7 @@ func (w *ConsumeWebServer) addConsume(c *gin.Context) {
 	con := db.Consume{
 		UserId: u.UserId,
 		Money:  req.Money,
-		Type:   req.Type,
+		TypeId: req.TypeId,
 		Remark: req.Remark,
 	}
 	if err := consume.AddConsume(con); err != nil {
@@ -82,7 +82,7 @@ func (w *ConsumeWebServer) ConsumeList(c *gin.Context) {
 		w.Error(c, 5000, "user no permission")
 		return
 	}
-	cList, err := consume.QueryByConsume(req.StartTime, req.EndTime, u.UserId, req.Type, req.Limit, req.Offset)
+	cList, err := consume.QueryByConsume(req.StartTime, req.EndTime, u.UserId, req.TypeId, req.Limit, req.Offset)
 	if err != nil {
 		sdk.Log.Errorf("query consume error:%v", err)
 		w.Error(c, 5000, "query consume error")
@@ -116,7 +116,7 @@ func (w *ConsumeWebServer) UpdateConsume(c *gin.Context) {
 		Id:     req.Id,
 		UserId: u.UserId,
 		Money:  req.Money,
-		Type:   req.Type,
+		TypeId: req.TypeId,
 		Remark: req.Remark,
 	}
 	if err := consume.UpdateConsume(con); err != nil {

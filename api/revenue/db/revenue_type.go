@@ -13,11 +13,11 @@ type RevenueType struct {
 }
 
 func (RevenueType) TableName() string {
-	return "income_type"
+	return "revenue_type"
 }
 
 func (*ImplData) CreateRevenueType(rt RevenueType) error {
-	if err := sdk.DB.Create(rt).Error; err != nil {
+	if err := sdk.DB.Create(&rt).Error; err != nil {
 		sdk.Log.Errorf("create revenue type error :%s", err.Error())
 		return err
 	}
@@ -33,7 +33,7 @@ func (*ImplData) QueryRevenueTypeList(userId int64) (rtList []*RevenueType, err 
 }
 
 func (*ImplData) DeleteRevenueType(rt RevenueType) error {
-	if err := sdk.DB.Where("id = ? and user_id = ?", rt.Id, rt.UserId).Delete(rt).Error; err != nil {
+	if err := sdk.DB.Where("id = ? and user_id = ?", rt.Id, rt.UserId).Delete(&rt).Error; err != nil {
 		sdk.Log.Errorf("delete revenue type error:%s", err.Error())
 		return err
 	}

@@ -9,7 +9,7 @@ type Revenue struct {
 	Id        int64      `json:"id" gorm:"primary_key"`
 	UserId    int64      `json:"user_id"`
 	Money     float64    `json:"Money"`
-	Type      int64      `json:"type"`
+	TypeId    int64      `json:"type_id"`
 	Remark    string     `json:"remark"`
 	CreatedAt time.Time  `json:"created_at" gorm:"default:null"`
 	UpdatedAt time.Time  `json:"updated_at" gorm:"default:null"`
@@ -21,7 +21,7 @@ func (Revenue) TableName() string {
 }
 
 func (*ImplData) CreateRevenue(r Revenue) error {
-	if err := sdk.DB.Create(r).Error; err != nil {
+	if err := sdk.DB.Create(&r).Error; err != nil {
 		sdk.Log.Errorf("create revenue error: %s", err.Error())
 		return err
 	}
@@ -31,16 +31,16 @@ func (*ImplData) CreateRevenue(r Revenue) error {
 func (*ImplData) QueryRevenue(userId int64, startTime, endTime string, tType int64, offset, limit int64) (rst []*Revenue, err error) {
 	db := sdk.DB
 	if userId > 0 {
-		db.Where("user_id = ?", userId)
+		db = db.Where("user_id = ?", userId)
 	}
 	if startTime != "" {
-		db.Where("created_at >= ?", startTime)
+		db = db.Where("DATE_FORMAT(created_at,'%Y-%m-%d') >= ?", startTime)
 	}
 	if endTime != "" {
-		db.Where("created_at < ?", endTime)
+		db = db.Where("DATE_FORMAT(created_at,'%Y-%m-%d') < ?", endTime)
 	}
 	if tType > 0 {
-		db.Where("type = ?", tType)
+		db = db.Where("type_id = ?", tType)
 	}
 	if err := db.Offset(offset).Limit(limit).Find(&rst).Error; err != nil {
 		sdk.Log.Errorf("query revenue error: %s", err.Error())

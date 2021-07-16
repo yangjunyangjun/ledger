@@ -132,7 +132,7 @@ var doc = `{
                     },
                     {
                         "type": "integer",
-                        "name": "type",
+                        "name": "type_id",
                         "in": "query"
                     }
                 ],
@@ -467,7 +467,7 @@ var doc = `{
                     },
                     {
                         "type": "integer",
-                        "name": "type",
+                        "name": "type_id",
                         "in": "query"
                     }
                 ],
@@ -687,7 +687,7 @@ var doc = `{
                 "remark": {
                     "type": "string"
                 },
-                "type": {
+                "type_id": {
                     "type": "integer"
                 }
             }
@@ -720,7 +720,7 @@ var doc = `{
                 "remark": {
                     "type": "string"
                 },
-                "type": {
+                "type_id": {
                     "type": "integer"
                 }
             }
@@ -734,7 +734,7 @@ var doc = `{
                 "remark": {
                     "type": "string"
                 },
-                "type": {
+                "type_id": {
                     "type": "integer"
                 }
             }
@@ -767,7 +767,7 @@ var doc = `{
                 "remark": {
                     "type": "string"
                 },
-                "type": {
+                "type_id": {
                     "type": "integer"
                 }
             }

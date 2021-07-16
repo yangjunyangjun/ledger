@@ -23,7 +23,6 @@ func (c *Claims) GenerateToken() (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 	c.ExpiresAt = expireTime.Unix()
-	c.Issuer = "gin-blog"
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	token, err := tokenClaims.SignedString(jwtSecret)
 

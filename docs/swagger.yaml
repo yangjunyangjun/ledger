@@ -5,7 +5,7 @@ definitions:
         type: number
       remark:
         type: string
-      type:
+      type_id:
         type: integer
     type: object
   consume.AddConsumeTypeReq:
@@ -26,7 +26,7 @@ definitions:
         type: number
       remark:
         type: string
-      type:
+      type_id:
         type: integer
     type: object
   revenue.AddRevenueRequest:
@@ -35,7 +35,7 @@ definitions:
         type: number
       remark:
         type: string
-      type:
+      type_id:
         type: integer
     type: object
   revenue.AddRevenueTypeReq:
@@ -56,7 +56,7 @@ definitions:
         type: number
       remark:
         type: string
-      type:
+      type_id:
         type: integer
     type: object
   user.LoginRequest:
@@ -179,7 +179,7 @@ paths:
         name: start_time
         type: string
       - in: query
-        name: type
+        name: type_id
         type: integer
       responses:
         "200":
@@ -395,7 +395,7 @@ paths:
         name: start_time
         type: string
       - in: query
-        name: type
+        name: type_id
         type: integer
       responses:
         "200":

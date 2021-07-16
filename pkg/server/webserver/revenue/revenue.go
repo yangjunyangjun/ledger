@@ -10,12 +10,12 @@ import (
 
 type AddRevenueRequest struct {
 	Money  float64 `json:"money"`
-	Type   int64   `json:"type"`
+	TypeId int64   `json:"type_id"`
 	Remark string  `json:"remark"`
 }
 
 type RevenueListRequest struct {
-	Type      int64  `json:"type" form:"type"`
+	TypeId    int64  `json:"type_id" form:"type_id"`
 	StartTime string `json:"start_time" form:"start_time"`
 	EndTime   string `json:"end_time" form:"end_time"`
 	webbase.RequestPage
@@ -50,7 +50,7 @@ func (w *RevenueWebServer) addRevenue(c *gin.Context) {
 	rev := db.Revenue{
 		UserId: u.UserId,
 		Money:  req.Money,
-		Type:   req.Type,
+		TypeId: req.TypeId,
 		Remark: req.Remark,
 	}
 	if err := revenue.CreateRevenue(rev); err != nil {
@@ -82,7 +82,7 @@ func (w *RevenueWebServer) RevenueList(c *gin.Context) {
 		w.Error(c, 5000, "user no permission")
 		return
 	}
-	cList, err := revenue.QueryRevenue(u.UserId, req.StartTime, req.EndTime, req.Type, req.Offset, req.Limit)
+	cList, err := revenue.QueryRevenue(u.UserId, req.StartTime, req.EndTime, req.TypeId, req.Offset, req.Limit)
 	if err != nil {
 		sdk.Log.Errorf("query revenue error:%v", err)
 		w.Error(c, 5000, "query revenue error")
@@ -116,7 +116,7 @@ func (w *RevenueWebServer) UpdateRevenue(c *gin.Context) {
 		Id:     req.Id,
 		UserId: u.UserId,
 		Money:  req.Money,
-		Type:   req.Type,
+		TypeId: req.TypeId,
 		Remark: req.Remark,
 	}
 	if err := revenue.UpdateRevenue(rev); err != nil {

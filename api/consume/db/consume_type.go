@@ -17,7 +17,7 @@ func (ConsumeType) TableName() string {
 }
 
 func (*ImplDb) CreateConsumeType(ct ConsumeType) error {
-	if err := sdk.DB.Create(ct).Error; err != nil {
+	if err := sdk.DB.Create(&ct).Error; err != nil {
 		sdk.Log.Errorf("create consume type error :%s", err.Error())
 		return err
 	}
@@ -33,7 +33,7 @@ func (*ImplDb) ConsumeTypeList(userId int64) (ConsumeType []*ConsumeType, err er
 }
 
 func (*ImplDb) DeleteConsumeType(ct ConsumeType) error {
-	if err := sdk.DB.Where("user_id = ? and id = ?", ct.UserId, ct.Id).Delete(ct).Error; err != nil {
+	if err := sdk.DB.Where("user_id = ? and id = ?", ct.UserId, ct.Id).Delete(&ct).Error; err != nil {
 		sdk.Log.Errorf("delete ConsumeType error : %s", err.Error())
 		return err
 	}

@@ -6,6 +6,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 var Config YamlConfig
@@ -59,8 +60,15 @@ type Email struct {
 func init() {
 	input := flag.String("env", "sit", "")
 	flag.Parse()
-	basePath, _ := os.Getwd()
-	settingPath := fmt.Sprintf("%s/settings/%s.yaml", basePath, *input)
+
+	pwd, _ := os.Getwd() //获取当前运行目录
+
+	//以项目名分割,取出项目根路径
+	pathList := strings.SplitAfter(pwd, "ledger")
+	path := pathList[0]
+
+	//配置文件路径
+	settingPath := fmt.Sprintf("%s/settings/%s.yaml", path, *input)
 	c, err := ioutil.ReadFile(settingPath)
 	if err != nil {
 		fmt.Println("read setting file err")

@@ -44,13 +44,13 @@ func (*ImplDb) GetByUser(email, userName string) (*User, error) {
 func (*ImplDb) QueryUserList(id int64, userName, email string, limit, offset int64) (userList []*User, err error) {
 	db := sdk.DB
 	if id > 0 {
-		db.Where("id = ?", id)
+		db = db.Where("id = ?", id)
 	}
 	if userName != "" {
-		db.Where("user_name = ?", userName)
+		db = db.Where("user_name = ?", userName)
 	}
 	if email != "" {
-		db.Where("email = ?", email)
+		db = db.Where("email = ?", email)
 	}
 	if err := db.Limit(limit).Offset(offset).Find(&userList).Error; err != nil {
 		return userList, err
