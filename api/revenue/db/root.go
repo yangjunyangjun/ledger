@@ -3,6 +3,8 @@ package db
 type ImplData struct {
 }
 
+var _ DataBase = (*ImplData)(nil)
+
 type DataBase interface {
 	//新增收入记录
 	CreateRevenue(r Revenue) error

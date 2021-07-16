@@ -3,6 +3,8 @@ package db
 type ImplDb struct {
 }
 
+var _ DataBase = (*ImplDb)(nil)
+
 type DataBase interface {
 	AddUser(user User) error
 

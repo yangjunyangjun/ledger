@@ -60,3 +60,18 @@ func (*ImplDb) DeleteConsume(c Consume) error {
 	}
 	return nil
 }
+
+//   计算月或天的消费总额
+func (ImplDb) GetConsumeSum(userId int64, month, day string) (consumeMoney float64, err error) {
+	db := sdk.DB.Table("consume").Select("SUM(money)").Where("user_id = ?", userId)
+	if month != "" {
+		db = db.Where("DATE_FORMAT(created_at,'%Y-%m') = ?", month)
+	} else if day != "" {
+		db = db.Where("DATE_FORMAT(created_at,'%Y-%m-%d') = ?", day)
+	}
+	if err := db.Scan(&consumeMoney).Error; err != nil {
+		sdk.Log.Error("get consume sum err: ", err)
+		return consumeMoney, err
+	}
+	return consumeMoney, nil
+}

@@ -19,6 +19,7 @@ func Run() {
 	g.MaxMultipartMemory = 3 << 20
 
 	g.Use(
+		gin.Recovery(),
 		middlware.LoggerToFile(), // 添加log日志中间件
 		middlware.Cors(),         // 处理前端跨域
 	)

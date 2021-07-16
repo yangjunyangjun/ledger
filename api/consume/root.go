@@ -31,3 +31,19 @@ func ConsumeTypeList(userId int64) (ConsumeType []*db.ConsumeType, err error) {
 func DeleteConsumeType(ct db.ConsumeType) error {
 	return _db.DeleteConsumeType(ct)
 }
+
+func AddBudget(budget db.Budget) error {
+	return _db.AddBudget(budget)
+}
+
+func QueryBudget(userId int64, yearMon string) (budgetMoney, consumeMoney float64, err error) {
+	budget, err := _db.QueryBudget(userId, yearMon)
+	if err != nil {
+		return 0, 0, err
+	}
+	consumeMoney, err = _db.GetConsumeSum(userId, yearMon, "")
+	if err != nil {
+		return 0, 0, err
+	}
+	return budget.Money, consumeMoney, nil
+}

@@ -1,8 +1,9 @@
 package db
 
-
 type ImplDb struct {
 }
+
+var _ DataBase = (*ImplDb)(nil)
 
 type DataBase interface {
 	//新增支出记录
@@ -13,12 +14,18 @@ type DataBase interface {
 	UpdateConsume(c Consume) error
 	// 删除支出记录
 	DeleteConsume(c Consume) error
+	//   计算月或天的消费总额
+	GetConsumeSum(userId int64, month, day string) (consumeMoney float64, err error)
 	//创建支出类别
 	CreateConsumeType(ct ConsumeType) error
 	//支出类别列表
 	ConsumeTypeList(userId int64) (ConsumeType []*ConsumeType, err error)
 	//删除支出类别
 	DeleteConsumeType(ct ConsumeType) error
+
+	//新增预算
+	AddBudget(budget Budget) error
+
+	//查询预算
+	QueryBudget(userId int64, yearMon string) (bg *Budget, err error)
 }
-
-
