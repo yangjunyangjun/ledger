@@ -59,7 +59,7 @@ type Email struct {
 
 func init() {
 	input := flag.String("env", "sit", "")
-	flag.Parse()
+	//flag.Parse()
 
 	pwd, _ := os.Getwd() //获取当前运行目录
 

@@ -16,6 +16,16 @@ type Consume struct {
 	DeletedAt *time.Time `json:"deleted_at" gorm:"default:null"`
 }
 
+type ConsumeMonView struct {
+	Day   string  `json:"day"`
+	Money float64 `json:"money"`
+}
+
+type ConsumeMonViewDay struct {
+	TypeName string  `json:"type_name"`
+	Money    float64 `json:"money"`
+}
+
 func (Consume) TableName() string {
 	return "consume"
 }
@@ -27,7 +37,7 @@ func (*ImplDb) AddConsume(c Consume) error {
 	return nil
 }
 
-func (*ImplDb) QueryByConsume(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Consume, err error) {
+func (*ImplDb) QueryConsumeList(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Consume, err error) {
 	db := sdk.DB
 	if startTime != "" {
 		db = db.Where("DATE_FORMAT(created_at,'%Y-%m-%d') >= ?", startTime)
@@ -41,7 +51,7 @@ func (*ImplDb) QueryByConsume(startTime, endTime string, userId, bType, limit, o
 	if bType > 0 {
 		db = db.Where("type_id = ?", bType)
 	}
-	if err = db.Offset(offset).Limit(limit).Find(&rst).Error; err != nil {
+	if err = db.Order("created_at").Offset(offset).Limit(limit).Find(&rst).Error; err != nil {
 		return nil, err
 	}
 	return rst, nil
@@ -63,15 +73,36 @@ func (*ImplDb) DeleteConsume(c Consume) error {
 
 //   计算月或天的消费总额
 func (ImplDb) GetConsumeSum(userId int64, month, day string) (consumeMoney float64, err error) {
-	db := sdk.DB.Table("consume").Select("SUM(money)").Where("user_id = ?", userId)
+	db := sdk.DB.Table("consume").Where("user_id = ?", userId)
 	if month != "" {
 		db = db.Where("DATE_FORMAT(created_at,'%Y-%m') = ?", month)
 	} else if day != "" {
 		db = db.Where("DATE_FORMAT(created_at,'%Y-%m-%d') = ?", day)
 	}
-	if err := db.Scan(&consumeMoney).Error; err != nil {
+	var moneyList []float64
+	if err := db.Pluck("money", &moneyList).Error; err != nil {
 		sdk.Log.Error("get consume sum err: ", err)
 		return consumeMoney, err
 	}
+	for _, v := range moneyList {
+		consumeMoney += v
+	}
 	return consumeMoney, nil
+}
+
+//月份消费支出视图
+func (ImplDb) GetConsumeView(userId int64, month string) (cView []*ConsumeMonView, err error) {
+	err = sdk.DB.Table("consume").Select("DATE_FORMAT(created_at,'%Y-%m-%d') as day, SUM(money) as money").
+		Where("user_id = ? and DATE_FORMAT(created_at,'%Y-%m') = ?", userId, month).Order("day").
+		Group("DATE_FORMAT(created_at,'%Y-%m-%d')").Find(&cView).Error
+	return cView, err
+}
+
+//天消费支出视图
+func (ImplDb) GetConsumeViewDay(userId int64, day string) (cView []*ConsumeMonViewDay, err error) {
+	err = sdk.DB.Table("consume").Select("consume_type.type_name as type_name, SUM(consume.money) as money").
+		Joins("inner join consume_type on consume.type_id = consume_type.id").
+		Where("consume.user_id = ? and DATE_FORMAT(consume.created_at,'%Y-%m-%d') = ?", userId, day).Order("money", true).
+		Group("type_name").Find(&cView).Error
+	return cView, err
 }

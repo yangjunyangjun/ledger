@@ -8,8 +8,8 @@ func AddConsume(c db.Consume) error {
 	return _db.AddConsume(c)
 }
 
-func QueryByConsume(startTime, endTime string, userId, bType, limit, offset int64) (rst []*db.Consume, err error) {
-	return _db.QueryByConsume(startTime, endTime, userId, bType, limit, offset)
+func QueryConsumeList(startTime, endTime string, userId, bType, limit, offset int64) (rst []*db.Consume, err error) {
+	return _db.QueryConsumeList(startTime, endTime, userId, bType, limit, offset)
 }
 
 func UpdateConsume(c db.Consume) error {
@@ -46,4 +46,8 @@ func QueryBudget(userId int64, yearMon string) (budgetMoney, consumeMoney float6
 		return 0, 0, err
 	}
 	return budget.Money, consumeMoney, nil
+}
+
+func GetConsumeView(userId int64, month string) (consume []*db.ConsumeMonView, err error) {
+	return _db.GetConsumeView(userId, month)
 }

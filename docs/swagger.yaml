@@ -1,4 +1,12 @@
 definitions:
+  consume.AddBudgetReq:
+    properties:
+      money:
+        description: 预算金额
+        type: number
+    required:
+    - money
+    type: object
   consume.AddConsumeRequest:
     properties:
       money:
@@ -7,6 +15,9 @@ definitions:
         type: string
       type_id:
         type: integer
+    required:
+    - money
+    - type_id
     type: object
   consume.AddConsumeTypeReq:
     properties:
@@ -21,6 +32,7 @@ definitions:
   consume.UpdateConsumeRequest:
     properties:
       id:
+        description: id
         type: integer
       money:
         type: number
@@ -28,6 +40,10 @@ definitions:
         type: string
       type_id:
         type: integer
+    required:
+    - id
+    - money
+    - type_id
     type: object
   revenue.AddRevenueRequest:
     properties:
@@ -113,6 +129,28 @@ info:
   title: Golang ledger API
   version: "1.0"
 paths:
+  /ledger/v1/consume/add_budget:
+    post:
+      description: 新增预算
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: JSON数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/consume.AddBudgetReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 预算相关接口
   /ledger/v1/consume/add_consume:
     post:
       description: 新增消费记录
@@ -157,6 +195,27 @@ paths:
             $ref: '#/definitions/webbase.Response'
       tags:
       - 消费管理相关接口
+  /ledger/v1/consume/budget_details:
+    get:
+      description: 查询预算详情
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 年月
+        in: query
+        name: year_mon
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 预算相关接口
   /ledger/v1/consume/consume_list:
     get:
       description: 消费记录列表
@@ -166,7 +225,8 @@ paths:
         name: Authorization
         required: true
         type: string
-      - in: query
+      - description: 截止时间
+        in: query
         name: end_time
         type: string
       - in: query
@@ -175,10 +235,12 @@ paths:
       - in: query
         name: offset
         type: integer
-      - in: query
+      - description: 起始时间
+        in: query
         name: start_time
         type: string
-      - in: query
+      - description: 消费种类id
+        in: query
         name: type_id
         type: integer
       responses:
@@ -219,6 +281,27 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/consume.DelConsumeTypeReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
+  /ledger/v1/consume/month_view:
+    get:
+      description: 月消费视图
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 年月
+        in: query
+        name: year_mon
+        required: true
+        type: string
       responses:
         "200":
           description: OK

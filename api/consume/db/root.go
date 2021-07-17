@@ -9,7 +9,7 @@ type DataBase interface {
 	//新增支出记录
 	AddConsume(c Consume) error
 	//查询支出记录
-	QueryByConsume(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Consume, err error)
+	QueryConsumeList(startTime, endTime string, userId, bType, limit, offset int64) (rst []*Consume, err error)
 	// 更新支出记录
 	UpdateConsume(c Consume) error
 	// 删除支出记录
@@ -27,5 +27,7 @@ type DataBase interface {
 	AddBudget(budget Budget) error
 
 	//查询预算
-	QueryBudget(userId int64, yearMon string) (bg *Budget, err error)
+	QueryBudget(userId int64, yearMon string) (bg Budget, err error)
+	//消费支出视图
+	GetConsumeView(userId int64, month string) (cView []*ConsumeMonView, err error)
 }

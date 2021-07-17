@@ -28,6 +28,40 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ledger/v1/consume/add_budget": {
+            "post": {
+                "description": "新增预算",
+                "tags": [
+                    "预算相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consume.AddBudgetReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/v1/consume/add_consume": {
             "post": {
                 "description": "新增消费记录",
@@ -96,6 +130,38 @@ var doc = `{
                 }
             }
         },
+        "/ledger/v1/consume/budget_details": {
+            "get": {
+                "description": "查询预算详情",
+                "tags": [
+                    "预算相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "年月",
+                        "name": "year_mon",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/v1/consume/consume_list": {
             "get": {
                 "description": "消费记录列表",
@@ -112,6 +178,7 @@ var doc = `{
                     },
                     {
                         "type": "string",
+                        "description": "截止时间",
                         "name": "end_time",
                         "in": "query"
                     },
@@ -127,11 +194,13 @@ var doc = `{
                     },
                     {
                         "type": "string",
+                        "description": "起始时间",
                         "name": "start_time",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "description": "消费种类id",
                         "name": "type_id",
                         "in": "query"
                     }
@@ -193,6 +262,38 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/consume.DelConsumeTypeReq"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/v1/consume/month_view": {
+            "get": {
+                "description": "月消费视图",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "年月",
+                        "name": "year_mon",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -678,8 +779,24 @@ var doc = `{
         }
     },
     "definitions": {
+        "consume.AddBudgetReq": {
+            "type": "object",
+            "required": [
+                "money"
+            ],
+            "properties": {
+                "money": {
+                    "description": "预算金额",
+                    "type": "number"
+                }
+            }
+        },
         "consume.AddConsumeRequest": {
             "type": "object",
+            "required": [
+                "money",
+                "type_id"
+            ],
             "properties": {
                 "money": {
                     "type": "number"
@@ -710,8 +827,14 @@ var doc = `{
         },
         "consume.UpdateConsumeRequest": {
             "type": "object",
+            "required": [
+                "id",
+                "money",
+                "type_id"
+            ],
             "properties": {
                 "id": {
+                    "description": "id",
                     "type": "integer"
                 },
                 "money": {

@@ -9,7 +9,7 @@ type Budget struct {
 	Id        int64     `json:"id" gorm:"primary_key"`
 	UserId    int64     `json:"user_id"`
 	Money     float64   `json:"money"`
-	YearMon   time.Time `json:"year_mon" gorm:"default:null"`
+	YearMon   string    `json:"year_mon"`
 	CreatedAt time.Time `json:"created_at" gorm:"default:null"`
 }
 
@@ -25,10 +25,10 @@ func (ImplDb) AddBudget(budget Budget) error {
 	return nil
 }
 
-func (ImplDb) QueryBudget(userId int64, yearMon string) (bg *Budget, err error) {
+func (ImplDb) QueryBudget(userId int64, yearMon string) (bg Budget, err error) {
 	if err := sdk.DB.Where("user_id = ? and year_mon = ?", userId, yearMon).First(&bg).Error; err != nil {
 		sdk.Log.Error("query budget err: ", err)
-		return nil, err
+		return bg, err
 	}
 	return bg, nil
 }
