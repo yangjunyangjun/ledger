@@ -51,3 +51,7 @@ func QueryBudget(userId int64, yearMon string) (budgetMoney, consumeMoney float6
 func GetConsumeView(userId int64, month string) (consume []*db.ConsumeMonView, err error) {
 	return _db.GetConsumeView(userId, month)
 }
+
+func GetConsumeDayView(userId int64, day string) (cView []*db.ConsumeMonViewDay, err error) {
+	return _db.GetConsumeDayView(userId, day)
+}

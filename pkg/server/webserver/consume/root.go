@@ -30,5 +30,6 @@ func (w *ConsumeWebServer) Setup(app, version, baseUrl string, g *gin.Engine) {
 
 
 	consumeGroup.GET("month_view", w.ConsumeView)
+	consumeGroup.GET("day_view", w.ConsumeDayView)
 
 }

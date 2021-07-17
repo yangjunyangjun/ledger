@@ -222,6 +222,38 @@
                 }
             }
         },
+        "/ledger/v1/consume/day_view": {
+            "get": {
+                "description": "日消费视图",
+                "tags": [
+                    "消费管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "年月日   2021-07-17",
+                        "name": "year_mon_day",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webbase.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/v1/consume/del_consume_type": {
             "delete": {
                 "description": "删除种类列表",

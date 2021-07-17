@@ -27,7 +27,11 @@ type UpdateConsumeRequest struct {
 }
 
 type ConsumeViewReq struct {
-	YearMon string `json:"year_mon" form:"year_mon" binding:"required"` //年月
+	YearMon string `json:"year_mon" form:"year_mon" binding:"required"` //年月2021-07
+}
+
+type ConsumeDayViewReq struct {
+	YearMonDay string `json:"year_mon_day" form:"year_mon_day" binding:"required"` //年月日2021-07-17
 }
 
 // @Title 新增消费记录
@@ -155,6 +159,39 @@ func (w *ConsumeWebServer) ConsumeView(c *gin.Context) {
 		return
 	}
 	dayList, err := consume.GetConsumeView(u.UserId, req.YearMon)
+	if err != nil {
+		sdk.Log.Error("get consume view err:", err)
+		w.Error(c, 5000, "get consume view err")
+		return
+	}
+	w.Success(c, dayList)
+}
+
+
+
+
+// @Title 日消费视图
+// @Author y18175612315@163.com
+// @Description 日消费视图
+// @Tags 消费管理相关接口
+// @Param Authorization	header	string true "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Param year_mon_day query string true "年月日   2021-07-17"
+// @Success 200 {object} webbase.Response
+// @Router	/ledger/v1/consume/day_view [get]
+func (w *ConsumeWebServer) ConsumeDayView(c *gin.Context) {
+	var req ConsumeDayViewReq
+	if err := c.ShouldBind(&req); err != nil {
+		sdk.Log.Error("invalid request")
+		w.Error(c, webbase.InvalidRequest, "invalid request")
+		return
+	}
+	u := w.GetUser(c)
+	if u == nil {
+		sdk.Log.Error("user no permission")
+		w.Error(c, 5000, "user no permission")
+		return
+	}
+	dayList, err := consume.GetConsumeDayView(u.UserId, req.YearMonDay)
 	if err != nil {
 		sdk.Log.Error("get consume view err:", err)
 		w.Error(c, 5000, "get consume view err")

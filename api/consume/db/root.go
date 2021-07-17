@@ -28,6 +28,7 @@ type DataBase interface {
 
 	//查询预算
 	QueryBudget(userId int64, yearMon string) (bg Budget, err error)
-	//消费支出视图
+	//月消费支出视图
 	GetConsumeView(userId int64, month string) (cView []*ConsumeMonView, err error)
-}
+	//日消费支出视图
+	GetConsumeDayView(userId int64, day string) (cView []*ConsumeMonViewDay, err error)}

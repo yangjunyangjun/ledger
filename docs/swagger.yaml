@@ -266,6 +266,27 @@ paths:
             $ref: '#/definitions/webbase.Response'
       tags:
       - 消费管理相关接口
+  /ledger/v1/consume/day_view:
+    get:
+      description: 日消费视图
+      parameters:
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 年月日   2021-07-17
+        in: query
+        name: year_mon_day
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/webbase.Response'
+      tags:
+      - 消费管理相关接口
   /ledger/v1/consume/del_consume_type:
     delete:
       description: 删除种类列表

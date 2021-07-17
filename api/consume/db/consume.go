@@ -99,7 +99,7 @@ func (ImplDb) GetConsumeView(userId int64, month string) (cView []*ConsumeMonVie
 }
 
 //天消费支出视图
-func (ImplDb) GetConsumeViewDay(userId int64, day string) (cView []*ConsumeMonViewDay, err error) {
+func (ImplDb) GetConsumeDayView(userId int64, day string) (cView []*ConsumeMonViewDay, err error) {
 	err = sdk.DB.Table("consume").Select("consume_type.type_name as type_name, SUM(consume.money) as money").
 		Joins("inner join consume_type on consume.type_id = consume_type.id").
 		Where("consume.user_id = ? and DATE_FORMAT(consume.created_at,'%Y-%m-%d') = ?", userId, day).Order("money", true).
